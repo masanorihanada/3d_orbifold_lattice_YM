@@ -1,0 +1,17 @@
+'N2t4s32b040_0.dat'		!input_config
+'N2t4s32b040_0.dat'		!output_config
+'N2t4s32b040_0.txt'		!data_output
+'N2t4s32b040_pol.txt'	!output_pol
+1		!init; 0 -> old config, 1 -> new config
+0.5d0		!at; lattice spacing along t
+0.5d0		!as; lattice spacing along x,y
+0.1d0		!mass2; which is m^2
+0.5d0		!mass2_U1; which is (m_{U(1)})^2
+10			!ntraj(total number of sweeps)
+1			!nskip
+500	!Ntau
+1d-3	!Dtau_t for U_t
+1d-3	!Dtau_s for Z
+4385	!mersenne_seed
+
+
