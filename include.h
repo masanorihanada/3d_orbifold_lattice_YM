@@ -51,8 +51,10 @@
 
   !energy, action, etc
 				     
-    double precision energy,action, trx2, trf2,trace
+				     double precision energy,action, trx2, trf2,trace, plaq_U, plaq_Z, Wm1
 character(150) input_config,data_output,output_config,output_pol
 
 !For Mersenne Twister
 integer mersenne_seed
+
+				     

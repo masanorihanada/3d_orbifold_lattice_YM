@@ -34,6 +34,7 @@ program D3YM
   read(10,*) mersenne_seed
 
   close(10)
+
   !*************************************
   !*** Set the initial configuration ***
   !*************************************
@@ -45,7 +46,7 @@ program D3YM
      read(9,*) umat
      read(9,*) zmat
      close(9)
-
+     
   else if(init.EQ.1)then
      !initialize random number generator
      call sgrnd(mersenne_seed)
@@ -84,7 +85,7 @@ program D3YM
   write(10,*) "#dtau for U_t=",Dtau_t
   write(10,*) "#dtau for U_x,U_y=",Dtau_s
   write(10,*) "#deformation parameters: m^2, m^2_{U(1)}",mass2,mass2_U1
-  write(10,*) "# traj, energy, Re(Pol.), Im(Pol.), acceptance"
+  write(10,*) "# traj, energy, spatial plaquette from Z, spatial plaquette from U, Tr(W-1)^2, Re(Pol.), Im(Pol.), acceptance"
   
   write(10,*) "#------------------------------------------------"
 
@@ -93,7 +94,7 @@ program D3YM
   do while (itraj.LE.ntraj)
      backup_umat=umat
      backup_zmat=zmat
-
+     
      call Generate_P(P_umat,P_zmat)
      call Calc_Ham(at,as,mass2,mass2_U1,umat,zmat,P_umat,P_zmat,ham_init)
      call Molecular_Dynamics(at,as,mass2,mass2_U1,ntau,dtau_t,dtau_s,umat,zmat,P_umat,P_zmat)
@@ -114,12 +115,13 @@ program D3YM
 
      ! measurements
      if(MOD(itraj,nskip).EQ.0)then
-        call Calc_action(at,as,mass2,mass2_U1,umat,zmat,action)
+        !call Calc_action(at,as,mass2,mass2_U1,umat,zmat,action)
+        call Calc_plaquette(as,zmat,plaq_U,plaq_Z,Wm1)
         call Calc_Polyakov(umat,Pol_re,Pol_im)
         
-        write(10,*)itraj,-ham_init+ham_fin,action/dble(nx*ny*nt),&
+        write(10,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
-        write(*,*)itraj,-ham_init+ham_fin,action/dble(nx*ny*nt),&
+        write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
         do ix=1,nx
            do iy=1,ny
@@ -160,5 +162,7 @@ include 'Molecular_Dynamics.f90'
 include 'set_boundary_condition.f90'
 include 'Calc_DELH.f90'
 include 'Calc_Polyakov.f90'
+include 'Calc_plaquette.f90'
 include 'MATRIX_DET_COMPLEX.f90'
 include 'MatrixInverse.f90'
+include 'MATRIX_SQRT.f90'
