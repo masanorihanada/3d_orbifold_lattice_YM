@@ -43,6 +43,7 @@ program D3YM
      call mtgetu(9)
      read(9,*) itraj
      read(9,*) umat
+     read(9,*) zmat
      close(9)
 
   else if(init.EQ.1)then
@@ -145,6 +146,7 @@ program D3YM
   call mtsaveu(22)
   write(22,*) itraj
   write(22,*) umat
+  write(22,*) zmat
   close(22)
 
 end program D3YM
