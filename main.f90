@@ -85,7 +85,7 @@ program D3YM
   write(10,*) "#dtau for U_t=",Dtau_t
   write(10,*) "#dtau for U_x,U_y=",Dtau_s
   write(10,*) "#deformation parameters: m^2, m^2_{U(1)}",mass2,mass2_U1
-  write(10,*) "# traj, energy, spatial plaquette from Z, spatial plaquette from U, Tr(W-1)^2, Re(Pol.), Im(Pol.), acceptance"
+  write(10,*) "# traj, energy, spatial plaquette from Z, spatial plaquette from U, Tr(W-1)^2, Re(det U) from spatial links,  Re(Pol.), Im(Pol.), acceptance"
   
   write(10,*) "#------------------------------------------------"
 
@@ -116,12 +116,12 @@ program D3YM
      ! measurements
      if(MOD(itraj,nskip).EQ.0)then
         !call Calc_action(at,as,mass2,mass2_U1,umat,zmat,action)
-        call Calc_plaquette(as,zmat,plaq_U,plaq_Z,Wm1)
+        call measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
         call Calc_Polyakov(umat,Pol_re,Pol_im)
         
-        write(10,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,&
+        write(10,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
-        write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,&
+        write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
         do ix=1,nx
            do iy=1,ny
@@ -162,7 +162,7 @@ include 'Molecular_Dynamics.f90'
 include 'set_boundary_condition.f90'
 include 'Calc_DELH.f90'
 include 'Calc_Polyakov.f90'
-include 'Calc_plaquette.f90'
+include 'Calc_measurement.f90'
 include 'MATRIX_DET_COMPLEX.f90'
 include 'MatrixInverse.f90'
 include 'MATRIX_SQRT.f90'

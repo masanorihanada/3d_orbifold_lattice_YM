@@ -52,6 +52,7 @@
   !energy, action, etc
 				     
 				     double precision energy,action, trx2, trf2,trace, plaq_U, plaq_Z, Wm1
+				     double complex av_det_U
 character(150) input_config,data_output,output_config,output_pol
 
 !For Mersenne Twister
