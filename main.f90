@@ -20,7 +20,6 @@ program D3YM
   read(10,*) input_config
   read(10,*) output_config
   read(10,*) data_output
-  read(10,*) output_pol
   read(10,*) init
   read(10,*) at
   read(10,*) as
@@ -79,7 +78,6 @@ program D3YM
   !************************************
   
   open(unit=10,status='REPLACE',file=data_output,action='WRITE')
-  open(unit=20,status='REPLACE',file=output_pol,action='WRITE')
   write(10,*) "#size of the gauge group: nmat=",nmat
   write(10,*) "#ntau=",ntau
   write(10,*) "#dtau for U_t=",Dtau_t
@@ -111,11 +109,8 @@ program D3YM
         zmat=backup_zmat
      end If
 
-    ! write(*,*)itraj,-ham_init+ham_fin,dble(nacceptance)/dble(ntrial)
-
      ! measurements
      if(MOD(itraj,nskip).EQ.0)then
-        !call Calc_action(at,as,mass2,mass2_U1,umat,zmat,action)
         call measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
         call Calc_Polyakov(umat,Pol_re,Pol_im)
         
@@ -123,14 +118,6 @@ program D3YM
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
         write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
-        do ix=1,nx
-           do iy=1,ny
-              !do imat=1,nmat
-                 !write(20,*)ix,iy,imat,pol_phase(imat,ix,iy)
-                 write(20,*)pol_phase(1,ix,iy),pol_phase(2,ix,iy)
-              !end do
-           end do
-        end do
      end if
 
      itraj=itraj+1
