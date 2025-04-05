@@ -81,7 +81,7 @@ program D3YM
   write(10,*) "#size of the gauge group: nmat=",nmat
   write(10,*) "#ntau=",ntau
   write(10,*) "#dtau for U_t=",Dtau_t
-  write(10,*) "#dtau for U_x,U_y=",Dtau_s
+  write(10,*) "#dtau for Z_x,Z_y=",Dtau_s
   write(10,*) "#deformation parameters: m^2, m^2_{U(1)}",mass2,mass2_U1
   write(10,*) "# traj, energy, spatial plaquette from Z, spatial plaquette from U, Tr(W-1)^2, Re(det U) from spatial links,  Re(Pol.), Im(Pol.), acceptance"
   
