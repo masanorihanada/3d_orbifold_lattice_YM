@@ -1,7 +1,7 @@
 !**********************
 !*** ndim must be 3 ***
 !**********************
-subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
+subroutine measurements(as,umat,zmat,plaq_U,plaq_Z,plaq_temp_U,Wm1,av_det_U)
 
   implicit none
   include 'size.h'
@@ -9,10 +9,10 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
   double complex zmat(1:nmat,1:nmat,0:nt+1,0:nx+1,0:ny+1,1:ndim-1)
   double complex wmat(1:nmat,1:nmat,0:nt+1,0:nx+1,0:ny+1,1:ndim-1)
   double complex umat_spatial(1:nmat,1:nmat,0:nt+1,0:nx+1,0:ny+1,1:ndim-1)
-  double complex umat(1:nmat,1:nmat,0:nt+1,0:nx+1,0:ny+1)!this umat is dummy, needed for set_bc subroutine. 
+  double complex umat(1:nmat,1:nmat,0:nt+1,0:nx+1,0:ny+1)
   double precision as !not really used for 3d theory
 
-  double precision plaq_U,plaq_Z,Wm1
+  double precision plaq_U,plaq_Z,plaq_temp_U,Wm1
 
   integer ix,iy,it
   integer idim,jdim
@@ -22,6 +22,10 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
   double complex UdUd(1:nmat,1:nmat)
   double complex ZxZy(1:nmat,1:nmat)
   double complex ZxbarZybar(1:nmat,1:nmat)
+  double complex UtUx(1:nmat,1:nmat)
+  double complex UtdUxd(1:nmat,1:nmat)
+  double complex UtUy(1:nmat,1:nmat)
+  double complex UtdUyd(1:nmat,1:nmat)
   
   
   double complex MAT(1:nmat,1:nmat)
@@ -32,6 +36,7 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
   
   plaq_U = 0d0
   plaq_Z = 0d0
+  plaq_temp_U = 0d0
   Wm1 = 0d0
 
   wmat = (0d0,0d0)
@@ -77,8 +82,11 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
            UdUd = (0d0,0d0)
            ZxZy = (0d0,0d0)
            ZxbarZybar = (0d0,0d0)
-
-  
+           UtUx = (0d0,0d0)
+           UtdUxd = (0d0,0d0)
+           UtUy = (0d0,0d0)
+           UtdUyd = (0d0,0d0)
+           
            do imat=1,nmat
               do jmat=1,nmat
                  do kmat=1,nmat
@@ -92,7 +100,18 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
                     
                     ZxbarZybar(imat,jmat)=ZxbarZybar(imat,jmat)&
                          &+dconjg(zmat(kmat,imat,it,ix,iy+1,1))*dconjg(zmat(jmat,kmat,it,ix,iy,2))
+                    
+                    UtUx(imat,jmat)=UtUx(imat,jmat)&
+                         &+umat(imat,kmat,it,ix,iy)*umat_spatial(kmat,jmat,it+1,ix,iy,1)
+                    UtdUxd(imat,jmat)=UtdUxd(imat,jmat)&
+                         &+dconjg(umat(kmat,imat,it,ix+1,iy))*dconjg(umat_spatial(jmat,kmat,it,ix,iy,1))
 
+                    UtUy(imat,jmat)=UtUy(imat,jmat)&
+                         &+umat(imat,kmat,it,ix,iy)*umat_spatial(kmat,jmat,it+1,ix,iy,2)
+                    UtdUyd(imat,jmat)=UtdUyd(imat,jmat)&
+                         &+dconjg(umat(kmat,imat,it,ix,iy+1))*dconjg(umat_spatial(jmat,kmat,it,ix,iy,2))  
+
+                    
                  end do
               end do
            end do
@@ -101,6 +120,7 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
               do jmat=1,nmat
                  plaq_U = plaq_U + dble(UU(imat,jmat)*UdUd(jmat,imat))
                  plaq_Z = plaq_Z + dble(ZxZy(imat,jmat)*ZxbarZybar(jmat,imat))
+                 plaq_temp_U = plaq_temp_U + dble(UtUx(imat,jmat)*UtdUxd(jmat,imat)) + dble(UtUy(imat,jmat)*UtdUyd(jmat,imat))
               end do
            end do
 
@@ -109,6 +129,7 @@ subroutine measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
   end do
   plaq_U = plaq_U / dble(nx * ny * nt)
   plaq_Z = plaq_Z / dble(nx * ny * nt)
+  plaq_temp_U = plaq_temp_U / dble(2 * nx * ny * nt)
 
   do it=1,nt
      do ix=1,nx

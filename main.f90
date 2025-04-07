@@ -83,7 +83,7 @@ program D3YM
   write(10,*) "#dtau for U_t=",Dtau_t
   write(10,*) "#dtau for Z_x,Z_y=",Dtau_s
   write(10,*) "#deformation parameters: m^2, m^2_{U(1)}",mass2,mass2_U1
-  write(10,*) "# traj, ham_fin - ham-fin, spatial plaquette from Z, spatial plaquette from U, Tr(W-1)^2, Re(det U) from spatial links,  Re(Pol.), Im(Pol.), acceptance"
+  write(10,*) "# traj, ham_fin - ham-fin, spatial plaquette from Z, spatial plaquette from U, temporal plaquette from U, Tr(W-1)^2, Re(det U) from spatial links,  Re(Pol.), Im(Pol.), acceptance"
   
   write(10,*) "#------------------------------------------------"
 
@@ -111,12 +111,12 @@ program D3YM
 
      ! measurements
      if(MOD(itraj,nskip).EQ.0)then
-        call measurements(as,zmat,plaq_U,plaq_Z,Wm1,av_det_U)
+        call measurements(as,umat,zmat,plaq_U,plaq_Z,plaq_temp_U,Wm1,av_det_U)
         call Calc_Polyakov(umat,Pol_re,Pol_im)
         
-        write(10,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,dble(av_det_U),&
+        write(10,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,plaq_temp_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
-        write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,Wm1,dble(av_det_U),&
+        write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,plaq_temp_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
      end if
 
