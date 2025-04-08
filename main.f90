@@ -24,7 +24,7 @@ program D3YM
   read(10,*) at
   read(10,*) as
   read(10,*) mass2 ! m^2
-  read(10,*) mass2_U1  ! This is actually (m_{U(1)})^2
+  read(10,*) mass2_U1  ! (m_{U(1)})^2
   read(10,*) ntraj
   read(10,*) nskip
   read(10,*) ntau
@@ -79,6 +79,7 @@ program D3YM
   
   open(unit=10,status='REPLACE',file=data_output,action='WRITE')
   write(10,*) "#size of the gauge group: nmat=",nmat
+  write(10,*) "#lattice spacings, a_t, a_s=", at, as
   write(10,*) "#ntau=",ntau
   write(10,*) "#dtau for U_t=",Dtau_t
   write(10,*) "#dtau for Z_x,Z_y=",Dtau_s
