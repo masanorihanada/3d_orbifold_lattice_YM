@@ -1,7 +1,7 @@
 'N2t8s8a0125M100_1.dat'		!input_config
 'N2t8s8a0125M50_1.dat'		!output_config
 'N2t8s8a0125M50_1.txt'		!data_output
-0		!init; 0 -> old config, 1 -> new config
+1		!init; 0 -> old config, 1 -> new config
 0.125d0		!at; lattice spacing along t
 0.125d0		!as; lattice spacing along x,y
 50d0		!mass2; which is m^2

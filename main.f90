@@ -119,6 +119,7 @@ program D3YM
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
         write(*,*)itraj,-ham_init+ham_fin,plaq_Z,plaq_U,plaq_temp_U,Wm1,dble(av_det_U),&
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
+        flush(10)
      end if
 
      itraj=itraj+1
