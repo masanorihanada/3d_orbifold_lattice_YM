@@ -2,7 +2,7 @@ Hybrid Monte-Carlo simulation code of (1+2)-d orbifold lattice action used in ar
 
 Fortran90 + Lapack. Compile main.f90.
 
-You can specify the size of the gauge group, number of scalars, and number of lattice sites in size.h. Simulation parameters can be specified in input_v1.dat. 
+You can specify the size of the gauge group　and number of lattice sites in size.h. Simulation parameters can be specified in input_v1.dat. 
 
 Most of the input parameters should be self-explanatory, except for: 
 - nskip (measurement is performed only when the number of trajectories in the HMC simulation is a multiple of nskip)
