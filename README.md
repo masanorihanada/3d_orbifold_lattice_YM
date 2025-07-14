@@ -1,4 +1,4 @@
-Hybrid Monte-Carlo simulation code of (1+2)-d orbifold lattice Lagrangian used in arXiv:2506.00755. The Lagrangian is given by eq.(12) and eq.(13) in arXiv:2506.00755.
+Hybrid Monte-Carlo simulation code of (1+2)-d orbifold lattice action used in arXiv:2506.00755. The action is given by eq.(12) and eq.(13) in arXiv:2506.00755.
 
 Fortran90 + Lapack. Compile main.f90.
 
