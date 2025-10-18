@@ -1,9 +1,3 @@
-! umat -> exp(i*P_umat*dtau_umat)*umat
-! xmat -> xmat + P_xmat*dtau_xmat
-! P_umat -> P_umat - delh_umat*dtau_umat
-! P_xmat -> P_xmat - delh_xmat*dtau_xmat
-! delh_xmat(imat,jmat)=dS/dxmat(jmat,imat)
-
 subroutine set_bc(umat,zmat)
 
   implicit none

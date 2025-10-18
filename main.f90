@@ -121,7 +121,7 @@ program D3YM
              &Pol_re,Pol_im,dble(nacceptance)/dble(ntrial)
         flush(10)
      end if
-
+     call SU_N_projection_all(umat)
      itraj=itraj+1
   end do
   !**************************************************
@@ -155,3 +155,4 @@ include 'Calc_measurement.f90'
 include 'MATRIX_DET_COMPLEX.f90'
 include 'MatrixInverse.f90'
 include 'MATRIX_SQRT.f90'
+include 'unitary_projection.f90'
