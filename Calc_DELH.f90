@@ -28,7 +28,7 @@ SUBROUTINE Calc_DELH(at,as,mass2,mass2_U1,umat,zmat,delh_umat,delh_zmat)
   double complex ZxbarZx(1:nmat,1:nmat)
   double complex ZyZybar(1:nmat,1:nmat)
   double complex ZybarZy(1:nmat,1:nmat)
-  double complex temp_mat(1:nmat,1:nmat),Zbar_times_temp_mat(1:nmat,1:nmat),zinv(1:nmat,1:nmat)
+  double complex temp_mat(1:nmat,1:nmat),Zbar_times_temp_mat(1:nmat,1:nmat),zinv(1:nmat,1:nmat),trace
 
   double complex coeff
   integer it_p1,it_m1
@@ -367,6 +367,25 @@ SUBROUTINE Calc_DELH(at,as,mass2,mass2_U1,umat,zmat,delh_umat,delh_zmat)
         end do
      end do
   end do
+  !*************************************
+  !*** Traceless projection ************
+  !*** (needed because Z is complex) ***
+  !*************************************
+  do it=1,nt
+     do ix=1,nx
+        do iy=1,ny
+           trace=(0d0,0d0)
+           do imat=1,nmat
+              trace = trace + delh_umat(imat,imat,it,ix,iy)
+           end do
+           do imat=1,nmat
+              delh_umat(imat,imat,it,ix,iy) = delh_umat(imat,imat,it,ix,iy) - trace/dcmplx(nmat)
+           end do
+        end do
+     end do
+  end do
+
+
   
   return
 

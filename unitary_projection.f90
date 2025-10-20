@@ -95,7 +95,7 @@ subroutine SU_N_projection_each(u_temp)!projection to SU(N) matrix
   u_temp_2=u_temp
   call MATRIX_DETERMINANT_COMPLEX(nmat,u_temp_2,det)
   !** check **
-  write(*,*)"detU = ",det
+  !write(*,*)"detU = ",det
   
   return
 
